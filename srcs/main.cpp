@@ -1,3 +1,7 @@
+
+#include <iostream>
+
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 int main(void)
@@ -15,6 +19,16 @@ int main(void)
 	}
 
 	glfwMakeContextCurrent(window);
+	glViewport(0, 0, 640, 480);
+	glewExperimental = GL_TRUE;
+
+	GLenum err = glewInit();
+	if (err != GLEW_OK)
+	{
+		std::cout << "GLEW Error: " << glewGetErrorString(err) << std::endl;
+		glfwTerminate();
+		return -1;
+	}
 
 	while (!glfwWindowShouldClose(window))
 	{
