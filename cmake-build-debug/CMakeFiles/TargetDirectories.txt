@@ -1,3 +1,0 @@
-C:/Users/madpl/dev/42/ft_vox/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/madpl/dev/42/ft_vox/cmake-build-debug/CMakeFiles/ft_vox.dir
-C:/Users/madpl/dev/42/ft_vox/cmake-build-debug/CMakeFiles/edit_cache.dir
