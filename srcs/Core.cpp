@@ -10,7 +10,6 @@ Core Core::m_instance = Core();
 Core::Core()
 	: m_display(Display("ft_vox", 1280, 720)), m_running(false)
 {
-
 }
 
 Core::~Core()
@@ -23,6 +22,7 @@ void Core::update()
 
 void Core::render()
 {
+
 
 }
 

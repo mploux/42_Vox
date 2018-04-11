@@ -28,6 +28,10 @@ Display::Display(const std::string &title, const int &width, const int &height)
 		if (!m_window)
 			throw GlfwWindowCreationException();
 
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 		glfwMakeContextCurrent(m_window);
 		glViewport(0, 0, m_width, m_height);
 

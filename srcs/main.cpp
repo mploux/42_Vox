@@ -1,10 +1,8 @@
-
-#include <iostream>
+//
+// Created by Marc on 10/04/2018.
+//
 
 #include "Core.hpp"
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
 int main(void)
 {

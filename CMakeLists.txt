@@ -5,7 +5,12 @@ set(NAME ft_vox)
 project(${NAME} CXX)
 
 set(CMAKE_CPP_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-std=c++11")
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 
 set(SOURCE_FILES
 	srcs/main.cpp
@@ -23,9 +28,22 @@ set(SOURCE_FILES
 	srcs/exceptions/glew/GlewException.hpp
 	srcs/exceptions/glew/GlewInitException.cpp
 	srcs/exceptions/glew/GlewInitException.hpp
+	srcs/exceptions/shaders/ShaderException.cpp
+	srcs/exceptions/shaders/ShaderException.hpp
+	srcs/exceptions/shaders/ShaderProgramCreationException.cpp
+	srcs/exceptions/shaders/ShaderProgramCreationException.hpp
+	srcs/exceptions/shaders/ShaderCreationException.cpp
+	srcs/exceptions/shaders/ShaderCreationException.hpp
 	srcs/graphics/Display.cpp
 	srcs/graphics/Display.hpp
-)
+	srcs/world/World.cpp
+	srcs/world/World.hpp
+	srcs/graphics/IRendereable.hpp
+	srcs/graphics/Shader.cpp
+	srcs/graphics/Shader.hpp
+	srcs/utils/FileUtils.cpp
+	srcs/utils/FileUtils.hpp
+	)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DGLEW_STATIC)

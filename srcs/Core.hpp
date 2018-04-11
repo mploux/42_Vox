@@ -9,9 +9,7 @@ class Core
 {
 private:
 	static Core	m_instance;
-
 	Display		m_display;
-
 	bool		m_running;
 
 public:
