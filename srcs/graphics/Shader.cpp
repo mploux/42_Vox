@@ -92,9 +92,20 @@ void Shader::setUniform(const char *name, GLfloat v)
 	glUniform1f(getUniformLocation(name), v);
 }
 
+void Shader::setUniform(const char *name, Vec3<float> v)
+{
+	glUniform3f(getUniformLocation(name), v.getX(), v.getY(), v.getZ());
+}
+
 void Shader::setUniform(const char *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
 {
 	glUniform4f(getUniformLocation(name), x, y, z, w);
+}
+
+
+void Shader::setUniform(const char *name, Mat4<float> m)
+{
+	glUniformMatrix4fv(getUniformLocation(name), 1, false, m.getData());
 }
 
 GLuint Shader::createShader(const char *source, int type)

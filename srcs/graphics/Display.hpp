@@ -28,4 +28,6 @@ public:
 
 	bool closeRequested();
 	void update();
+
+	GLFWwindow *getWindow() const;
 };

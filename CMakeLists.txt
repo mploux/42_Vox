@@ -43,7 +43,19 @@ set(SOURCE_FILES
 	srcs/graphics/Shader.hpp
 	srcs/utils/FileUtils.cpp
 	srcs/utils/FileUtils.hpp
-	)
+	srcs/world/Chunk.cpp srcs/world/Chunk.hpp
+	srcs/world/blocks/Block.cpp
+	srcs/world/blocks/Block.hpp
+	srcs/world/blocks/StoneBlock.cpp
+	srcs/world/blocks/StoneBlock.hpp
+	srcs/world/blocks/EmptyBlock.cpp
+	srcs/world/blocks/EmptyBlock.hpp
+	srcs/world/blocks/blocks.hpp
+	srcs/graphics/Camera.cpp
+	srcs/graphics/Camera.hpp
+	srcs/maths/Vec3.hpp
+	srcs/maths/Vec2.hpp
+	srcs/maths/Mat4.hpp srcs/maths/Maths.hpp)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DGLEW_STATIC)
@@ -62,9 +74,12 @@ add_executable(${NAME} ${SOURCE_FILES})
 target_include_directories(${NAME} PUBLIC ${OPENGL_INCLUDE_DIR} deps/glfw/include deps/glew/include)
 target_link_libraries(${NAME} ${OPENGL_gl_LIBRARY} glfw glew)
 
+add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+				   ${CMAKE_SOURCE_DIR}/data
+				   $<TARGET_FILE_DIR:${NAME}>/data)
+
 if (WIN32)
 	add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
 		${CMAKE_BINARY_DIR}/bin/glew32d.dll
-		$<TARGET_FILE_DIR:${NAME}>
-	)
+		$<TARGET_FILE_DIR:${NAME}>)
 endif (WIN32)

@@ -3,6 +3,8 @@
 //
 #pragma once
 
+#include <world/World.hpp>
+#include <graphics/Camera.hpp>
 #include "graphics/Display.hpp"
 
 class Core
@@ -11,6 +13,9 @@ private:
 	static Core	m_instance;
 	Display		m_display;
 	bool		m_running;
+	World		m_world;
+	Shader		m_shader;
+	Camera		m_camera;
 
 public:
 	Core();

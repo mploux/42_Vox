@@ -24,13 +24,14 @@ Display::Display(const std::string &title, const int &width, const int &height)
 		if (!glfwInit())
 			throw GlfwInitException();
 
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
 		m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
 		if (!m_window)
 			throw GlfwWindowCreationException();
-
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		glfwMakeContextCurrent(m_window);
 		glViewport(0, 0, m_width, m_height);
@@ -39,6 +40,11 @@ Display::Display(const std::string &title, const int &width, const int &height)
 
 		if (glewInit() != GLEW_OK)
 			throw GlewInitException();
+
+//		glfwSwapInterval(1);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
 	}
 	catch (std::exception &e)
 	{
@@ -61,4 +67,9 @@ void Display::update()
 {
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
+}
+
+GLFWwindow *Display::getWindow() const
+{
+	return m_window;
 }
