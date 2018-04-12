@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <ostream>
+
 template <typename T>
 class Vec3
 {
@@ -50,3 +52,5 @@ public:
 	void setZ(T z) { m_z = z; }
 };
 
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const Vec3<T> &v) { os << v.getX() << " " << v.getY() << " " << v.getZ(); return os; }

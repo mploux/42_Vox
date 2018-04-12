@@ -55,7 +55,7 @@ set(SOURCE_FILES
 	srcs/graphics/Camera.hpp
 	srcs/maths/Vec3.hpp
 	srcs/maths/Vec2.hpp
-	srcs/maths/Mat4.hpp srcs/maths/Maths.hpp)
+	srcs/maths/Mat4.hpp srcs/maths/Maths.hpp srcs/inputs/Input.cpp srcs/inputs/Input.hpp)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DGLEW_STATIC)

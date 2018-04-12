@@ -5,6 +5,7 @@
 
 #include <world/World.hpp>
 #include <graphics/Camera.hpp>
+#include <inputs/Input.hpp>
 #include "graphics/Display.hpp"
 
 class Core
@@ -16,6 +17,7 @@ private:
 	World		m_world;
 	Shader		m_shader;
 	Camera		m_camera;
+	Input		m_input;
 
 public:
 	Core();
@@ -29,7 +31,9 @@ public:
 	void terminate();
 	void loop();
 
-	const Display &getDisplay() const;
+	Display &getDisplay();
+	Input &getInput();
+	Camera &getCamera();
 
 	static Core &getInstance();
 };

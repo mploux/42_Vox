@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <ostream>
+
 template <typename T>
 class Vec2
 {
@@ -42,9 +44,12 @@ public:
 	bool operator==(const Vec2 &v) { return m_x == v.m_x && m_y == v.m_y; }
 
 	T getX() const { return m_x; }
-	T getY() const { return m_y; }
 
+	T getY() const { return m_y; }
 	void setX(T x) { m_x = x; }
+
 	void setY(T y) { m_y = y; }
 };
 
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const Vec2<T> &v) { os << v.getX() << " " << v.getY(); return os; }

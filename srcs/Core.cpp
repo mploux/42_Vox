@@ -13,8 +13,10 @@ Core::Core()
 	  m_world(World()),
 	  m_shader(Shader("data/shaders/main.vert", "data/shaders/main.frag")),
 	  m_camera(Camera(Vec3<float>(-8, -8, -8))),
+	  m_input(Input(m_display)),
 	  m_running(false)
 {
+	m_input.setupCallbacks();
 }
 
 Core::~Core()
@@ -22,6 +24,7 @@ Core::~Core()
 
 void Core::update()
 {
+	m_input.update();
 	m_camera.input(m_display);
 	m_camera.update();
 	m_world.update();
@@ -95,6 +98,8 @@ void Core::loop()
 	}
 }
 
-const Display &Core::getDisplay() const { return m_display; }
+Display &Core::getDisplay() { return m_display; }
+Camera &Core::getCamera() { return m_camera; }
+Input &Core::getInput() { return m_input; }
 
 Core &Core::getInstance() { return m_instance; }
