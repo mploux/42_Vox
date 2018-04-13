@@ -6,11 +6,9 @@
 #include <iostream>
 #include "Chunk.hpp"
 
-Chunk::Chunk(World &world)
-	: m_world(world)
+Chunk::Chunk(World &world, const Vec3<int> &pos)
+	: m_world(world), m_pos(pos)
 {
-	generateBlocks();
-	generateRenderData();
 }
 
 Chunk::~Chunk()
@@ -27,7 +25,8 @@ void Chunk::generateBlocks()
 		{
 			for (int z = 0; z < CHUNK_SIZE; z++)
 			{
-				m_blocks[x][y][z] = &blocks::stone;
+				Block *block = &blocks::stone;
+				m_blocks[x][y][z] = block;
 				m_renderSize++;
 			}
 		}
@@ -39,23 +38,25 @@ void Chunk::generateRenderData()
 	GLfloat vertexData[m_renderSize * 3];
 
 	int index = 0;
+	m_renderSize = 0;
 	for (int x = 0; x < CHUNK_SIZE; x++)
 	{
 		for (int y = 0; y < CHUNK_SIZE; y++)
 		{
 			for (int z = 0; z < CHUNK_SIZE; z++)
 			{
-				if (m_blocks[x][y][z]->getType() != 0)
+				if (m_blocks[x][y][z]->getType() != 0 && isBlockVisible(x, y, z))
 				{
-					vertexData[index++] = static_cast<float>(x);
-					vertexData[index++] = static_cast<float>(y);
-					vertexData[index++] = static_cast<float>(z);
+					vertexData[index++] = m_pos.getX() + static_cast<float>(x);
+					vertexData[index++] = m_pos.getY() + static_cast<float>(y);
+					vertexData[index++] = m_pos.getZ() + static_cast<float>(z);
+					m_renderSize++;
 				}
 			}
 		}
 	}
 
-	generateVertexBuffer(sizeof(vertexData), vertexData);
+	generateVertexBuffer(sizeof(GLfloat) * index, vertexData);
 }
 
 void Chunk::generateVertexBuffer(const int &dataSize, GLfloat *data)
@@ -79,7 +80,24 @@ void Chunk::render(const Shader &shader)
 	glBindVertexArray(0);
 }
 
+bool Chunk::isBlockVisible(const int &x, const int &y, const int &z)
+{
+	bool top = m_world.getBlock(m_pos.getX() + x, m_pos.getY() + y - 1, m_pos.getZ() + z) != nullptr;
+	bool bottom = m_world.getBlock(m_pos.getX() + x, m_pos.getY() + y + 1, m_pos.getZ() + z) != nullptr;
+	bool left = m_world.getBlock(m_pos.getX() + x - 1, m_pos.getY() + y, m_pos.getZ() + z) != nullptr;
+	bool right = m_world.getBlock(m_pos.getX() + x + 1, m_pos.getY() + y, m_pos.getZ() + z) != nullptr;
+	bool front = m_world.getBlock(m_pos.getX() + x, m_pos.getY() + y, m_pos.getZ() + z - 1) != nullptr;
+	bool back = m_world.getBlock(m_pos.getX() + x, m_pos.getY() + y, m_pos.getZ() + z + 1) != nullptr;
+
+	if (top && bottom && left && right && front && back)
+		return false;
+	return true;
+}
+
 Block *Chunk::getBlock(const int &x, const int &y, const int &z)
 {
+	if (x < 0 || y < 0 || z < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE || z >= CHUNK_SIZE)
+		return nullptr;
+
 	return m_blocks[x][y][z];
 }

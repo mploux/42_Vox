@@ -14,6 +14,7 @@ private:
 
 public:
 	Vec2() : Vec2(0, 0) {}
+	Vec2(const T &v) : Vec2(v, v) {}
 	Vec2(const T &x, const T &y) : m_x(x), m_y(y) {}
 	Vec2(const Vec2 &v) : m_x(v.m_x), m_y(v.m_y) {}
 	virtual ~Vec2() = default;
@@ -33,10 +34,15 @@ public:
 	Vec2 &operator*=(const Vec2 &v) { return mul(v); }
 	Vec2 &operator/=(const Vec2 &v) { return div(v); }
 
-	Vec2 &operator+(const Vec2 &v2) { return add(v2); }
-	Vec2 &operator-(const Vec2 &v2) { return sub(v2); }
-	Vec2 &operator*(const Vec2 &v2) { return mul(v2); }
-	Vec2 &operator/(const Vec2 &v2) { return div(v2); }
+	Vec2 operator+(const Vec2 &v2) { return Vec2(m_x + v2.m_x, m_y + v2.m_y); }
+	Vec2 operator-(const Vec2 &v2) { return Vec2(m_x - v2.m_x, m_y - v2.m_y); }
+	Vec2 operator*(const Vec2 &v2) { return Vec2(m_x * v2.m_x, m_y * v2.m_y); }
+	Vec2 operator/(const Vec2 &v2) { return Vec2(m_x / v2.m_x, m_y / v2.m_y); }
+
+	Vec2 operator+(const T &v2) { return Vec2(m_x + v2, m_y + v2); }
+	Vec2 operator-(const T &v2) { return Vec2(m_x - v2, m_y - v2); }
+	Vec2 operator*(const T &v2) { return Vec2(m_x * v2, m_y * v2); }
+	Vec2 operator/(const T &v2) { return Vec2(m_x / v2, m_y / v2); }
 
 	Vec2 &operator=(const Vec2 &v) { m_x = v.m_x; m_y = v.m_y; return *this; }
 	Vec2 &operator=(const T &v) { m_x = v; m_y = v; return *this; }

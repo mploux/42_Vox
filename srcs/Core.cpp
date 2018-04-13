@@ -4,6 +4,8 @@
 
 #include <cstdlib>
 #include <chrono>
+#include <string>
+#include <sstream>
 #include "Core.hpp"
 
 Core Core::m_instance = Core();
@@ -11,8 +13,8 @@ Core Core::m_instance = Core();
 Core::Core()
 	: m_display(Display("ft_vox", 1280, 720)),
 	  m_world(World()),
-	  m_shader(Shader("data/shaders/main.vert", "data/shaders/main.frag")),
-	  m_camera(Camera(Vec3<float>(-8, -8, -8))),
+	  m_shader(Shader("data/shaders/main.vert", "data/shaders/main.geom", "data/shaders/main.frag")),
+	  m_camera(Camera(Vec3<float>(0, 0, 3))),
 	  m_input(Input(m_display)),
 	  m_running(false)
 {
@@ -24,10 +26,16 @@ Core::~Core()
 
 void Core::update()
 {
+	if (m_input.getButtonDown(GLFW_MOUSE_BUTTON_LEFT))
+		m_input.setFocused(true);
+	if (m_input.getKeyDown(GLFW_KEY_ESCAPE))
+		m_input.setFocused(false);
+
 	m_input.update();
 	m_camera.input(m_display);
 	m_camera.update();
 	m_world.update();
+	m_input.reset();
 }
 
 void Core::render()
@@ -61,13 +69,11 @@ void Core::terminate()
 
 void Core::loop()
 {
-	int frames = 0;
-	int time = 0;
-
 	double tickTime = 1.0 / 60.0;
 
+	int frames = 0;
+	int time = 0;
 	auto beforeTimeTicks = std::chrono::high_resolution_clock::now();
-	auto beforeTimeSeconds = std::chrono::high_resolution_clock::now();
 
 	while (m_running)
 	{
@@ -75,26 +81,25 @@ void Core::loop()
 		std::chrono::duration<double> elapsedTicks = currentTimeTicks - beforeTimeTicks;
 		if (elapsedTicks.count() > tickTime)
 		{
+			if (time % 60 == 0)
+			{
+				std::cout << "fps: " << frames << "\n";
+				std::ostringstream stm ;
+				stm << frames;
+				std::string title = std::string("fps: ") + stm.str();
+				glfwSetWindowTitle(m_display.getWindow(), title.c_str());
+				frames = 0;
+			}
 			update();
-			time++;
 			beforeTimeTicks = std::chrono::high_resolution_clock::now();
+			time++;
 		}
 
 		if (m_display.closeRequested())
 			stop();
 		render();
-		m_display.update();
 		frames++;
-
-		auto currentTimeSeconds = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> elapsedSeconds = currentTimeSeconds - beforeTimeSeconds;
-		if (elapsedSeconds.count() > 1.0)
-		{
-			std::cout << "ticks: " << time << " fps: " << frames << std::endl;
-			frames = 0;
-			time = 0;
-			beforeTimeSeconds = std::chrono::high_resolution_clock::now();
-		}
+		m_display.update();
 	}
 }
 

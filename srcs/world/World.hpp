@@ -20,5 +20,7 @@ public:
 
 	void update();
 	void render(const Shader &shader);
+
+	Block *getBlock(const int &x, const int &y, const int &z);
 };
 

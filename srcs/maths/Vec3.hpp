@@ -33,10 +33,10 @@ public:
 	Vec3 &operator*=(const Vec3 &v) { return mul(v); }
 	Vec3 &operator/=(const Vec3 &v) { return div(v); }
 
-	Vec3 &operator+(const Vec3 &v2) { return add(v2); }
-	Vec3 &operator-(const Vec3 &v2) { return sub(v2); }
-	Vec3 &operator*(const Vec3 &v2) { return mul(v2); }
-	Vec3 &operator/(const Vec3 &v2) { return div(v2); }
+	Vec3 operator+(const Vec3 &v2) { return Vec3(m_x + v2.m_x, m_y + v2.m_y, m_z + v2.m_z); }
+	Vec3 operator-(const Vec3 &v2) { return Vec3(m_x - v2.m_x, m_y - v2.m_y, m_z - v2.m_z); }
+	Vec3 operator*(const Vec3 &v2) { return Vec3(m_x * v2.m_x, m_y * v2.m_y, m_z * v2.m_z); }
+	Vec3 operator/(const Vec3 &v2) { return Vec3(m_x / v2.m_x, m_y / v2.m_y, m_z / v2.m_z); }
 
 	Vec3 &operator=(const Vec3 &v) { m_x = v.m_x; m_y = v.m_y; m_z = v.m_z; return *this; }
 	Vec3 &operator=(const T &v) { m_x = v; m_y = v; m_z = v; return *this; }

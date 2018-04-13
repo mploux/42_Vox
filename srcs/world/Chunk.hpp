@@ -15,13 +15,14 @@ class World;
 class Chunk : public IRenderable
 {
 private:
-	World	&m_world;
-	Block	*m_blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
-	GLuint	m_vao, m_vbo;
-	int		m_renderSize;
+	Vec3<int>	m_pos;
+	World		&m_world;
+	Block		*m_blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+	GLuint		m_vao, m_vbo;
+	int			m_renderSize;
 
 public:
-	Chunk(World &world);
+	Chunk(World &world, const Vec3<int> &pos);
 	virtual ~Chunk();
 
 	void generateBlocks();
@@ -30,5 +31,6 @@ public:
 
 	void render(const Shader &shader);
 
+	bool isBlockVisible(const int &x, const int &y, const int &z);
 	Block *getBlock(const int &x, const int &y, const int &z);
 };

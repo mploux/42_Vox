@@ -13,7 +13,7 @@ class Camera
 {
 private:
 	Vec3<float>	m_position;
-	Vec3<float>	m_rotation;
+	Vec2<float>	m_rotation;
 
 public:
 	Camera();

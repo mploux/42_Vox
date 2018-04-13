@@ -25,53 +25,90 @@ void Input::setupCallbacks()
 
 void Input::update()
 {
-	std::cout << m_mousePosition << std::endl;
+	static Vec2<float> s_lastPosition = m_mousePosition;
+
+	if (m_focused)
+	{
+		glfwSetInputMode(m_display.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		m_mouseVelocity = (m_mousePosition - s_lastPosition);
+		s_lastPosition = m_mousePosition;
+	}
+	else
+		glfwSetInputMode(m_display.getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
-void Input::keyCallback(int key, int scancode, int action, int mods)
+void Input::reset()
 {
-
+	m_upKeys.clear();
+	m_downKeys.clear();
+	m_upButtons.clear();
+	m_downButtons.clear();
 }
 
-void Input::characterCallback(unsigned int codepoint)
+void Input::keyEvent(int key, int scancode, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		if (std::find(m_keys.begin(), m_keys.end(), key) == m_keys.end())
+			m_keys.push_back(key);
+		if (std::find(m_downKeys.begin(), m_downKeys.end(), key) == m_downKeys.end())
+			m_downKeys.push_back(key);
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		if (std::find(m_upKeys.begin(), m_upKeys.end(), key) == m_upKeys.end())
+			m_upKeys.push_back(key);
+		auto removeIndex = std::find(m_keys.begin(), m_keys.end(), key);
+		if (removeIndex != m_keys.end())
+			m_keys.erase(removeIndex);
+	}
+}
+
+void Input::characterEvent(unsigned int codepoint)
 {
 }
 
-void Input::cursorPositionCallback(double xpos, double ypos)
+void Input::cursorPositionEvent(double xpos, double ypos)
 {
 	m_mousePosition.setX(xpos);
 	m_mousePosition.setY(ypos);
 }
 
-void Input::mouseButtonCallback(int button, int action, int mods)
+void Input::mouseButtonEvent(int button, int action, int mods)
 {
+	if (action == GLFW_PRESS)
+	{
+		if (std::find(m_buttons.begin(), m_buttons.end(), button) == m_buttons.end())
+			m_buttons.push_back(button);
+		if (std::find(m_downButtons.begin(), m_downButtons.end(), button) == m_downButtons.end())
+			m_downButtons.push_back(button);
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		if (std::find(m_upButtons.begin(), m_upButtons.end(), button) == m_upButtons.end())
+			m_upButtons.push_back(button);
+		auto removeIndex = std::find(m_buttons.begin(), m_buttons.end(), button);
+		if (removeIndex != m_buttons.end())
+			m_buttons.erase(removeIndex);
+	}
 }
 
-const Vec2<int> &Input::getMousePosition() const
-{
-	return m_mousePosition;
-}
+bool Input::getKey(const int &key) const { return std::find(m_keys.begin(), m_keys.end(), key) != m_keys.end(); }
+bool Input::getKeyUp(const int &key) const { return std::find(m_upKeys.begin(), m_upKeys.end(), key) != m_upKeys.end(); }
+bool Input::getKeyDown(const int &key) const { return std::find(m_downKeys.begin(), m_downKeys.end(), key) != m_downKeys.end(); }
 
-void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	(void) window;
-	Core::getInstance().getInput().keyCallback(key, scancode, action, mods);
-}
+bool Input::getButton(const int &btn) const { return std::find(m_buttons.begin(), m_buttons.end(), btn) != m_buttons.end(); }
+bool Input::getButtonUp(const int &btn) const { return std::find(m_upButtons.begin(), m_upButtons.end(), btn) != m_upButtons.end(); }
+bool Input::getButtonDown(const int &btn) const { return std::find(m_downButtons.begin(), m_downButtons.end(), btn) != m_downButtons.end(); }
 
-void Input::characterCallback(GLFWwindow* window, unsigned int codepoint)
-{
-	(void) window;
-	Core::getInstance().getInput().characterCallback(codepoint);
-}
+const Vec2<float> &Input::getMousePosition() const { return m_mousePosition; }
+const Vec2<float> &Input::getMouseVelocity() const { return m_mouseVelocity; }
 
-void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
-{
-	(void) window;
-	Core::getInstance().getInput().cursorPositionCallback(xpos, ypos);
-}
+void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) { (void) window; Core::getInstance().getInput().keyEvent(key, scancode, action, mods); }
+void Input::characterCallback(GLFWwindow* window, unsigned int codepoint) { (void) window;Core::getInstance().getInput().characterEvent(codepoint); }
+void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) { (void) window;Core::getInstance().getInput().cursorPositionEvent(xpos, ypos); }
+void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) { (void) window;Core::getInstance().getInput().mouseButtonEvent(button, action, mods); }
 
-void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
-{
-	(void) window;
-	Core::getInstance().getInput().mouseButtonCallback(button, action, mods);
-}
+bool Input::isFocused() const { return m_focused; }
+void Input::setFocused(bool focused) { m_focused = focused; }

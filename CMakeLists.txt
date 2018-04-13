@@ -74,9 +74,6 @@ add_executable(${NAME} ${SOURCE_FILES})
 target_include_directories(${NAME} PUBLIC ${OPENGL_INCLUDE_DIR} deps/glfw/include deps/glew/include)
 target_link_libraries(${NAME} ${OPENGL_gl_LIBRARY} glfw glew)
 
-add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-				   ${CMAKE_SOURCE_DIR}/data
-				   $<TARGET_FILE_DIR:${NAME}>/data)
 
 if (WIN32)
 	add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
