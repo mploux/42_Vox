@@ -15,8 +15,8 @@ public:
 		   const unsigned char &front, const unsigned char &back);
 	virtual ~Block();
 
-	unsigned char getType();
-	bool isSolid();
+	virtual unsigned char getType();
+	virtual bool isSolid();
 	const unsigned char *getTextureData() const;
 };
 
