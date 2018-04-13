@@ -18,7 +18,7 @@ private:
 	Vec3<int>	m_pos;
 	World		&m_world;
 	Block		*m_blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
-	GLuint		m_vao, m_vbo, m_dbo;
+	GLuint		m_vao, m_vbo, m_tbo, m_dbo;
 	int			m_renderSize;
 
 public:
@@ -27,7 +27,7 @@ public:
 
 	void generateBlocks();
 	void generateRenderData();
-	void generateVertexBuffer(const int &dataSize, GLfloat *data, const int &facesSize, GLubyte *faces);
+	void generateVertexBuffer(const int &dataSize, GLfloat *data, const int &textureSize, GLubyte *texture, const int &facesSize, GLubyte *faces);
 
 	void render(const Shader &shader);
 

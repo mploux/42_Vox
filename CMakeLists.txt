@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 
 set(NAME ft_vox)
 
@@ -11,6 +11,8 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 set(SOURCE_FILES
 	srcs/main.cpp
@@ -76,6 +78,9 @@ target_link_libraries(${NAME} ${OPENGL_gl_LIBRARY} glfw glew)
 
 
 if (WIN32)
+#	add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
+#					   ${CMAKE_BINARY_DIR}/bin/glew32.dll
+#					   $<TARGET_FILE_DIR:${NAME}>)
 	add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
 		${CMAKE_BINARY_DIR}/bin/glew32d.dll
 		$<TARGET_FILE_DIR:${NAME}>)
