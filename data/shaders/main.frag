@@ -2,7 +2,9 @@
 
 out vec4 out_color;
 
+in vec4 g_color;
+
 void main()
 {
-	out_color = vec4(0, 1, 1, 1);
+	out_color = g_color;
 }
