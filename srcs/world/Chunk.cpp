@@ -42,7 +42,7 @@ void Chunk::generateBlocks()
 void Chunk::generateRenderData()
 {
 	GLfloat vertexData[m_renderSize * 3];
-	GLint facesData[m_renderSize];
+	GLubyte facesData[m_renderSize];
 
 	m_renderSize = 0;
 	int vertexSize = 0;
@@ -53,7 +53,7 @@ void Chunk::generateRenderData()
 		{
 			for (int z = 0; z < CHUNK_SIZE; z++)
 			{
-				int visibleFaces = getBlockVisibleFaces(x, y, z);
+				unsigned char visibleFaces = getBlockVisibleFaces(x, y, z);
 				if (m_blocks[x][y][z]->getType() != 0 && visibleFaces != 0)
 				{
 					facesData[facesSize++] = visibleFaces;
@@ -69,7 +69,7 @@ void Chunk::generateRenderData()
 	generateVertexBuffer(sizeof(GLfloat) * vertexSize, vertexData, sizeof(GLint) * facesSize, facesData);
 }
 
-void Chunk::generateVertexBuffer(const int &dataSize, GLfloat *data, const int &facesSize, GLint *faces)
+void Chunk::generateVertexBuffer(const int &dataSize, GLfloat *data, const int &facesSize, GLubyte *faces)
 {
 	glGenVertexArrays(1, &m_vao);
 	glGenBuffers(1, &m_vbo);
@@ -85,7 +85,7 @@ void Chunk::generateVertexBuffer(const int &dataSize, GLfloat *data, const int &
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, m_dbo);
 	glBufferData(GL_ARRAY_BUFFER, facesSize, faces, GL_STATIC_DRAW);
-	glVertexAttribIPointer(1, 1, GL_INT, 0, nullptr);
+	glVertexAttribIPointer(1, 1, GL_UNSIGNED_BYTE, 0, nullptr);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -99,9 +99,9 @@ void Chunk::render(const Shader &shader)
 	glBindVertexArray(0);
 }
 
-int Chunk::getBlockVisibleFaces(const int &x, const int &y, const int &z)
+unsigned char Chunk::getBlockVisibleFaces(const int &x, const int &y, const int &z)
 {
-	int result = 0;
+	unsigned char result = 0;
 	bool top = m_world.getBlock(m_pos.getX() + x, m_pos.getY() + y + 1, m_pos.getZ() + z)->getType() != 0;
 	bool bottom = m_world.getBlock(m_pos.getX() + x, m_pos.getY() + y - 1, m_pos.getZ() + z)->getType() != 0;
 	bool left = m_world.getBlock(m_pos.getX() + x - 1, m_pos.getY() + y, m_pos.getZ() + z)->getType() != 0;

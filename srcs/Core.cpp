@@ -16,6 +16,7 @@ Core::Core()
 	  m_shader(Shader("data/shaders/main.vert", "data/shaders/main.geom", "data/shaders/main.frag")),
 	  m_camera(Camera(Vec3<float>(0, 0, 3))),
 	  m_input(Input(m_display)),
+	  m_texture(Texture("data/textures/terrain.dds")),
 	  m_running(false)
 {
 	m_input.setupCallbacks();
@@ -42,8 +43,11 @@ void Core::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	m_texture.bind();
+
 	m_shader.bind();
 	m_shader.setUniform("projectionMatrix", m_camera.getTransformation());
+	m_shader.setUniform("cameraPosition", m_camera.getPosition());
 
 	m_world.render(m_shader);
 }

@@ -6,6 +6,7 @@
 #include <world/World.hpp>
 #include <graphics/Camera.hpp>
 #include <inputs/Input.hpp>
+#include <graphics/textures/Texture.hpp>
 #include "graphics/Display.hpp"
 
 class Core
@@ -18,6 +19,7 @@ private:
 	Shader		m_shader;
 	Camera		m_camera;
 	Input		m_input;
+	Texture		m_texture;
 
 public:
 	Core();

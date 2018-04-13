@@ -24,5 +24,8 @@ public:
 	void update();
 
 	Mat4<float> getTransformation() const;
+
+	const Vec3<float> &getPosition() const;
+	const Vec2<float> &getRotation() const;
 };
 

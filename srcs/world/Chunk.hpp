@@ -27,10 +27,10 @@ public:
 
 	void generateBlocks();
 	void generateRenderData();
-	void generateVertexBuffer(const int &dataSize, GLfloat *data, const int &facesSize, GLint *faces);
+	void generateVertexBuffer(const int &dataSize, GLfloat *data, const int &facesSize, GLubyte *faces);
 
 	void render(const Shader &shader);
 
-	int getBlockVisibleFaces(const int &x, const int &y, const int &z);
+	unsigned char getBlockVisibleFaces(const int &x, const int &y, const int &z);
 	Block *getBlock(const int &x, const int &y, const int &z);
 };

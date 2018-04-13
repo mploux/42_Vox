@@ -78,3 +78,13 @@ Mat4<float> Camera::getTransformation() const
 
 	return perspective * rotation_x * rotation_y * translation;
 }
+
+const Vec3<float> &Camera::getPosition() const
+{
+	return m_position;
+}
+
+const Vec2<float> &Camera::getRotation() const
+{
+	return m_rotation;
+}
