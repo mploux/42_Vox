@@ -28,7 +28,7 @@ out vec4 frag_position;
 void addVertex(vec2 texcoord, vec3 offset, float tx, float ty)
 {
 	v_texcoord = vec2((tx + texcoord.x) / TEXTURE_SIZE , (ty + texcoord.y) / TEXTURE_SIZE);
-	frag_position = (data[0].position[0] + vec4(offset.xyz, 0.0));
+	frag_position = (data[0].position + vec4(offset.xyz, 0.0));
     gl_Position = projectionMatrix * frag_position;
     EmitVertex();
 }

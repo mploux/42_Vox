@@ -6,6 +6,7 @@
 #include <chrono>
 #include <string>
 #include <sstream>
+#include <zconf.h>
 #include "Core.hpp"
 
 Core Core::m_instance = Core();
@@ -13,19 +14,22 @@ Core Core::m_instance = Core();
 Core::Core()
 	: m_display(Display("ft_vox", 1280, 720)),
 	  m_running(false),
-	  m_world(World(1)),
-	  m_shader24(Shader("../data/shaders/24.vert", "../data/shaders/24.frag")),
-	  m_shader4(Shader("../data/shaders/main.vert", "../data/shaders/main.frag")),
+	  m_shader24(Shader("../data/shaders/24.vert", "../data/shaders/24.geom", "../data/shaders/24.frag")),
+	  m_shader4(Shader("../data/shaders/main.vert", "../data/shaders/main.geom", "../data/shaders/main.frag")),
 	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE, -20, -16 * CHUNK_SIZE))),
 	  m_input(Input(m_display)),
 	  m_texture(Texture("../data/textures/terrain.dds")),
-	  m_renderMode(RENDER_G_24)
+	  m_renderMode(RENDER_G_24),
+	  m_blocks(Blocks())
 {
 	m_input.setupCallbacks();
+	m_world = new World(32);
 }
 
 Core::~Core()
-{}
+{
+	delete m_world;
+}
 
 void Core::update()
 {
@@ -37,7 +41,7 @@ void Core::update()
 	m_input.update();
 	m_camera.input(m_display);
 	m_camera.update();
-	m_world.update();
+	m_world->update();
 
 	if (m_input.getKeyDown(GLFW_KEY_R))
 		m_renderMode = (m_renderMode + 1) % 2;
@@ -56,14 +60,14 @@ void Core::render()
 		m_shader24.bind();
 		m_shader24.setUniform("projectionMatrix", m_camera.getTransformation());
 		m_shader24.setUniform("cameraPosition", m_camera.getPosition());
-		m_world.render(m_shader24);
+		m_world->render(m_shader24);
 	}
 	if (m_renderMode == RENDER_G_4)
 	{
 		m_shader4.bind();
 		m_shader4.setUniform("projectionMatrix", m_camera.getTransformation());
 		m_shader4.setUniform("cameraPosition", m_camera.getPosition());
-		m_world.render(m_shader4);
+		m_world->render(m_shader4);
 	}
 }
 
@@ -117,13 +121,14 @@ void Core::loop()
 			beforeTimeTicks = std::chrono::high_resolution_clock::now();
 			time++;
 		}
-//		else
+		else
 		{
 			if (m_display.closeRequested())
 				stop();
 			render();
 			frames++;
 			m_display.update();
+//			usleep(1000000.0 / 1000.0);
 		}
 	}
 }
@@ -142,4 +147,9 @@ int Core::getRenderMode() const
 void Core::setRenderMode(int renderMode)
 {
 	m_renderMode = renderMode;
+}
+
+Blocks &Core::getBlocks()
+{
+	return m_blocks;
 }

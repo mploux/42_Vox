@@ -12,7 +12,6 @@ layout(triangle_strip, max_vertices = 4) out;
 
 uniform mat4 projectionMatrix;
 
-in vec4 v_trs[];
 in lowp int v_face[];
 in vec4 v_position[];
 in lowp int v_texture[];

@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "Block.hpp"
+#include "ABlock.hpp"
 
-class TntBlock : public Block
+class TntBlock : public ABlock
 {
 public:
-	explicit TntBlock();
+	TntBlock();
 	virtual ~TntBlock();
 };
 

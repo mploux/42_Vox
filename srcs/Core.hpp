@@ -7,7 +7,10 @@
 #include <graphics/Camera.hpp>
 #include <inputs/Input.hpp>
 #include <graphics/textures/Texture.hpp>
+#include <world/blocks/Blocks.hpp>
 #include "graphics/Display.hpp"
+
+#define GET_BLOCK(name) Core::getInstance().getBlocks().getBlock(name)
 
 #define RENDER_G_24 0
 #define RENDER_G_4  1
@@ -18,13 +21,14 @@ private:
 	static Core	m_instance;
 	Display		m_display;
 	bool		m_running;
-	World		m_world;
 	Shader		m_shader24;
 	Shader		m_shader4;
 	Camera		m_camera;
 	Input		m_input;
 	Texture		m_texture;
 	int			m_renderMode;
+	Blocks		m_blocks;
+	World		*m_world;
 
 public:
 	Core();
@@ -45,6 +49,8 @@ public:
 	static Core &getInstance();
 
 	int getRenderMode() const;
+
+	Blocks &getBlocks();
 
 	void setRenderMode(int renderMode);
 };

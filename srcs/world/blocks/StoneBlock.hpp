@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "Block.hpp"
+#include "ABlock.hpp"
 
-class StoneBlock : public Block
+class StoneBlock : public ABlock
 {
 public:
-	explicit StoneBlock();
+	StoneBlock();
 	virtual ~StoneBlock();
 };
 

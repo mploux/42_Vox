@@ -9,7 +9,6 @@ uniform mat4 projectionMatrix;
 out vec4 v_position;
 out lowp int v_texture;
 
-out vec4 v_trs;
 out vec3 frag_pos;
 
 out lowp int v_face;
@@ -21,6 +20,5 @@ void main()
 	v_face = in_face;
 
 	frag_pos = vec4(in_position, 1.0).xyz;
-	v_trs = projectionMatrix * vec4(in_position, 1.0);
 	gl_Position = projectionMatrix * vec4(in_position, 1.0);
 }

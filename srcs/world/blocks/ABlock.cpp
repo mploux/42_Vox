@@ -3,13 +3,13 @@
 //
 
 #include <iostream>
-#include "Block.hpp"
+#include "ABlock.hpp"
 
-Block::Block(const unsigned char &texture)
-	: Block(texture, texture, texture, texture, texture, texture)
+ABlock::ABlock(const unsigned char &texture)
+	: ABlock(texture, texture, texture, texture, texture, texture)
 {}
 
-Block::Block(const unsigned char &top, const unsigned char &bottom,
+ABlock::ABlock(const unsigned char &top, const unsigned char &bottom,
 			   const unsigned char &left, const unsigned char &right,
 			   const unsigned char &front, const unsigned char &back)
 {
@@ -25,32 +25,32 @@ Block::Block(const unsigned char &top, const unsigned char &bottom,
 	m_opaque = false;
 }
 
-Block::~Block()
+ABlock::~ABlock()
 {}
 
-char Block::getType()
+char ABlock::getType() const
 {
 	return m_type;
 }
 
-bool Block::isSolid()
+bool ABlock::isSolid() const
 {
 	return m_solid;
 }
 
-bool Block::isOpaque()
+bool ABlock::isOpaque() const
 {
 	return m_opaque;
 }
 
-bool Block::isRendered()
+bool ABlock::isRendered() const
 {
 	if (m_type == -1)
 		return false;
 	return m_opaque;
 }
 
-const unsigned char *Block::getTextureData() const
+const unsigned char *ABlock::getTextureData() const
 {
 	return m_texture;
 }

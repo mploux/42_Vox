@@ -5,11 +5,14 @@
 #include "EmptyBlock.hpp"
 
 EmptyBlock::EmptyBlock()
-	: Block(0, 0, 0, 0, 0, 0)
+	: ABlock(0, 0, 0, 0, 0, 0)
 {
 	m_type = 0;
 	m_solid = false;
 	m_opaque = false;
 }
 
-EmptyBlock::~EmptyBlock() {}
+EmptyBlock::~EmptyBlock()
+{
+
+}

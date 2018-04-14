@@ -5,12 +5,12 @@
 #pragma once
 
 
-#include "Block.hpp"
+#include "ABlock.hpp"
 
-class GlassBlock : public Block
+class GlassBlock : public ABlock
 {
 public:
-	explicit GlassBlock();
+	GlassBlock();
 	virtual ~GlassBlock();
 };
 

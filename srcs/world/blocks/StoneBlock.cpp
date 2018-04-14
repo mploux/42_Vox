@@ -5,10 +5,13 @@
 #include "StoneBlock.hpp"
 
 StoneBlock::StoneBlock()
-	: Block(1)
+	: ABlock(1)
 {
 	m_type = 1;
 	m_solid = true;
+	m_opaque = true;
 }
 
-StoneBlock::~StoneBlock() {}
+StoneBlock::~StoneBlock()
+{
+}

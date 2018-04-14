@@ -5,7 +5,7 @@
 #pragma once
 
 #include "graphics/IRendereable.hpp"
-#include "Chunk.hpp"
+#include "world/chunks/Chunk.hpp"
 
 class Chunk;
 
@@ -25,6 +25,6 @@ public:
 
 	int getChunkIndex(const int &x, const int &y, const int &z);
 
-	Block *getBlock(const int &x, const int &y, const int &z);
+	const ABlock &getBlock(const int &x, const int &y, const int &z);
 };
 
