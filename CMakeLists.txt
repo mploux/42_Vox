@@ -12,7 +12,7 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 set(SOURCE_FILES
 	srcs/main.cpp
@@ -57,7 +57,7 @@ set(SOURCE_FILES
 	srcs/graphics/Camera.hpp
 	srcs/maths/Vec3.hpp
 	srcs/maths/Vec2.hpp
-	srcs/maths/Mat4.hpp srcs/maths/Maths.hpp srcs/inputs/Input.cpp srcs/inputs/Input.hpp srcs/graphics/textures/Texture.cpp srcs/graphics/textures/Texture.hpp srcs/graphics/textures/TextureDDS.cpp)
+	srcs/maths/Mat4.hpp srcs/maths/Maths.hpp srcs/inputs/Input.cpp srcs/inputs/Input.hpp srcs/graphics/textures/Texture.cpp srcs/graphics/textures/Texture.hpp srcs/graphics/textures/TextureDDS.cpp srcs/world/blocks/TntBlock.cpp srcs/world/blocks/TntBlock.hpp srcs/world/blocks/GlassBlock.cpp srcs/world/blocks/GlassBlock.hpp srcs/world/ChunkGeometry24.cpp srcs/world/ChunkGeometry24.hpp)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DGLEW_STATIC)

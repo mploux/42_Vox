@@ -52,5 +52,7 @@ public:
 	void setZ(T z) { m_z = z; }
 };
 
+static Vec3<int> ZERO = Vec3<int>(0, 0, 0);
+
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const Vec3<T> &v) { os << v.getX() << " " << v.getY() << " " << v.getZ(); return os; }

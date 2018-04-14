@@ -10,6 +10,7 @@ protected:
 	unsigned char m_texture[6];
 
 public:
+	explicit Block(const unsigned char &texture);
 	explicit Block(const unsigned char &top, const unsigned char &bottom,
 		   const unsigned char &left, const unsigned char &right,
 		   const unsigned char &front, const unsigned char &back);
@@ -17,6 +18,8 @@ public:
 
 	virtual unsigned char getType();
 	virtual bool isSolid();
+	virtual bool isOpaque();
+	virtual bool isRendered();
 	const unsigned char *getTextureData() const;
 };
 

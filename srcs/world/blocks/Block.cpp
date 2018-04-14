@@ -2,7 +2,12 @@
 // Created by Marc on 11/04/2018.
 //
 
+#include <iostream>
 #include "Block.hpp"
+
+Block::Block(const unsigned char &texture)
+	: Block(texture, texture, texture, texture, texture, texture)
+{}
 
 Block::Block(const unsigned char &top, const unsigned char &bottom,
 			   const unsigned char &left, const unsigned char &right,
@@ -27,6 +32,18 @@ unsigned char Block::getType()
 bool Block::isSolid()
 {
 	return false;
+}
+
+bool Block::isOpaque()
+{
+	return true;
+}
+
+bool Block::isRendered()
+{
+	if (getType() == -1)
+		return false;
+	return isOpaque();
 }
 
 const unsigned char *Block::getTextureData() const

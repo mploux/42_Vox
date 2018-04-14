@@ -35,7 +35,10 @@ void Input::update()
 		s_lastPosition = m_mousePosition;
 	}
 	else
+	{
 		glfwSetInputMode(m_display.getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		s_lastPosition = m_mousePosition;
+	}
 }
 
 void Input::reset()

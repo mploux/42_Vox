@@ -21,3 +21,8 @@ bool EmptyBlock::isSolid()
 {
 	return false;
 }
+
+bool EmptyBlock::isOpaque()
+{
+	return false;
+}

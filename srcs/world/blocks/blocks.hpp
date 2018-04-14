@@ -6,10 +6,15 @@
 
 #include "EmptyBlock.hpp"
 #include "StoneBlock.hpp"
+#include "TntBlock.hpp"
+#include "GlassBlock.hpp"
 
 namespace blocks
 {
-	static EmptyBlock empty = EmptyBlock();
-	static StoneBlock stone = StoneBlock();
+	static Block 		VOID 	= Block(0, 0, 0, 0, 0, 0);
+	static EmptyBlock 	EMPTY 	= EmptyBlock();
+	static StoneBlock 	STONE 	= StoneBlock();
+	static TntBlock 	TNT 	= TntBlock();
+	static GlassBlock 	GLASS 	= GlassBlock();
 };
 

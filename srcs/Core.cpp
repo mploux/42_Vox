@@ -12,11 +12,12 @@ Core Core::m_instance = Core();
 
 Core::Core()
 	: m_display(Display("ft_vox", 1280, 720)),
-	  m_world(World()),
-	  m_shader(Shader("data/shaders/main.vert", "data/shaders/main.geom", "data/shaders/main.frag")),
-	  m_camera(Camera(Vec3<float>(0, 0, 3))),
+	  m_world(World(32)),
+	  m_shader24(Shader("../data/shaders/24.vert", "../data/shaders/24.geom", "../data/shaders/24.frag")),
+	  m_shader4(Shader("../data/shaders/main.vert", "../data/shaders/main.geom", "../data/shaders/main.frag")),
+	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE, -20, -16 * CHUNK_SIZE))),
 	  m_input(Input(m_display)),
-	  m_texture(Texture("data/textures/terrain.dds")),
+	  m_texture(Texture("../data/textures/terrain.dds")),
 	  m_running(false)
 {
 	m_input.setupCallbacks();
@@ -36,6 +37,10 @@ void Core::update()
 	m_camera.input(m_display);
 	m_camera.update();
 	m_world.update();
+
+	if (m_input.getKeyDown(GLFW_KEY_R))
+		RENDER_MODE = (RENDER_MODE + 1) % 2;
+
 	m_input.reset();
 }
 
@@ -45,11 +50,20 @@ void Core::render()
 
 	m_texture.bind();
 
-	m_shader.bind();
-	m_shader.setUniform("projectionMatrix", m_camera.getTransformation());
-	m_shader.setUniform("cameraPosition", m_camera.getPosition());
-
-	m_world.render(m_shader);
+	if (RENDER_MODE == RENDER_G_24)
+	{
+		m_shader24.bind();
+		m_shader24.setUniform("projectionMatrix", m_camera.getTransformation());
+		m_shader24.setUniform("cameraPosition", m_camera.getPosition());
+		m_world.render(m_shader24);
+	}
+	if (RENDER_MODE == RENDER_G_4)
+	{
+		m_shader4.bind();
+		m_shader4.setUniform("projectionMatrix", m_camera.getTransformation());
+		m_shader4.setUniform("cameraPosition", m_camera.getPosition());
+		m_world.render(m_shader4);
+	}
 }
 
 void Core::start()
@@ -91,6 +105,10 @@ void Core::loop()
 				std::ostringstream stm ;
 				stm << frames;
 				std::string title = std::string("fps: ") + stm.str();
+				if (RENDER_MODE == RENDER_G_24)
+					title += "  | render mode: GEOMETRY 24";
+				if (RENDER_MODE == RENDER_G_4)
+					title += "  | render mode: GEOMETRY 4";
 				glfwSetWindowTitle(m_display.getWindow(), title.c_str());
 				frames = 0;
 			}
@@ -98,12 +116,14 @@ void Core::loop()
 			beforeTimeTicks = std::chrono::high_resolution_clock::now();
 			time++;
 		}
-
-		if (m_display.closeRequested())
-			stop();
-		render();
-		frames++;
-		m_display.update();
+//		else
+		{
+			if (m_display.closeRequested())
+				stop();
+			render();
+			frames++;
+			m_display.update();
+		}
 	}
 }
 

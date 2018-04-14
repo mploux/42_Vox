@@ -12,14 +12,18 @@ class Chunk;
 class World : public IRenderable
 {
 private:
-	Chunk *m_chunks;
+	Chunk	*m_chunks;
+	int		m_size;
+	int		m_height;
 
 public:
-	World();
+	World(int size);
 	virtual ~World();
 
 	void update();
 	void render(const Shader &shader);
+
+	int getChunkIndex(const int &x, const int &y, const int &z);
 
 	Block *getBlock(const int &x, const int &y, const int &z);
 };

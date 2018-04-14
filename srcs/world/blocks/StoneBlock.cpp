@@ -5,7 +5,7 @@
 #include "StoneBlock.hpp"
 
 StoneBlock::StoneBlock()
-	: Block(1, 2, 3, 4, 5, 6)
+	: Block(1)
 {
 }
 

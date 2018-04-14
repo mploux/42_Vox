@@ -9,6 +9,9 @@
 #include <graphics/textures/Texture.hpp>
 #include "graphics/Display.hpp"
 
+#define RENDER_G_24 0
+#define RENDER_G_4  1
+
 class Core
 {
 private:
@@ -16,7 +19,8 @@ private:
 	Display		m_display;
 	bool		m_running;
 	World		m_world;
-	Shader		m_shader;
+	Shader		m_shader24;
+	Shader		m_shader4;
 	Camera		m_camera;
 	Input		m_input;
 	Texture		m_texture;
@@ -39,5 +43,7 @@ public:
 
 	static Core &getInstance();
 };
+
+static int RENDER_MODE = RENDER_G_24;
 
 
