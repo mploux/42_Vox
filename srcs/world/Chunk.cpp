@@ -8,12 +8,12 @@
 #include "Chunk.hpp"
 
 Chunk::Chunk()
-	: m_world(nullptr), m_pos(ZERO)
+	: m_pos(ZERO), m_world(nullptr)
 {
 }
 
 Chunk::Chunk(World *world, const Vec3<int> &pos)
-	: m_world(world), m_pos(pos)
+	: m_pos(pos), m_world(world)
 {
 }
 
@@ -133,6 +133,8 @@ void Chunk::generateVertexBufferG4(const int &dataSize, GLfloat *data, const int
 
 void Chunk::renderG4(const Shader &shader)
 {
+	(void) shader;
+
 	glBindVertexArray(m_vaoG4);
 	glDrawArrays(GL_POINTS, 0, m_renderSizeG4);
 	glBindVertexArray(0);
@@ -218,6 +220,8 @@ void Chunk::generateVertexBufferG24(const int &dataSize, GLfloat *data, const in
 
 void Chunk::renderG24(const Shader &shader)
 {
+	(void) shader;
+
 	glBindVertexArray(m_vaoG24);
 	glDrawArrays(GL_POINTS, 0, m_renderSizeG24);
 	glBindVertexArray(0);
@@ -225,11 +229,13 @@ void Chunk::renderG24(const Shader &shader)
 
 void Chunk::render(const Shader &shader)
 {
+	(void) shader;
 }
 
 unsigned char Chunk::getBlockVisibleFaces(const int &x, const int &y, const int &z)
 {
 	unsigned char result = 0;
+	std::cout << m_world->getBlock(0, 0, 0)->isOpaque() << std::endl;
 	bool top = m_world->getBlock(m_pos.getX() + x, m_pos.getY() + y + 1, m_pos.getZ() + z)->isRendered();
 	bool bottom = m_world->getBlock(m_pos.getX() + x, m_pos.getY() + y - 1, m_pos.getZ() + z)->isRendered();
 	bool left = m_world->getBlock(m_pos.getX() + x - 1, m_pos.getY() + y, m_pos.getZ() + z)->isRendered();

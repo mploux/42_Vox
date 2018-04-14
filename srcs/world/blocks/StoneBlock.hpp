@@ -11,8 +11,5 @@ class StoneBlock : public Block
 public:
 	explicit StoneBlock();
 	virtual ~StoneBlock();
-
-	unsigned char getType();
-	bool isSolid();
 };
 

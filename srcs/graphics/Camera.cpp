@@ -28,6 +28,8 @@ void Camera::input(const Display &display)
 	if (!Core::getInstance().getInput().isFocused())
 		return;
 
+	(void) display;
+
 	Vec2<float> mouseVelocity;
 	mouseVelocity.setX(Core::getInstance().getInput().getMouseVelocity().getY());
 	mouseVelocity.setY(Core::getInstance().getInput().getMouseVelocity().getX());

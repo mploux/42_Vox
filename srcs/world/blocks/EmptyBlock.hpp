@@ -11,9 +11,5 @@ class EmptyBlock : public Block
 public:
 	explicit EmptyBlock();
 	virtual ~EmptyBlock();
-
-	unsigned char getType();
-	bool isSolid();
-	bool isOpaque();
 };
 

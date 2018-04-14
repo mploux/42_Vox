@@ -51,6 +51,9 @@ void Input::reset()
 
 void Input::keyEvent(int key, int scancode, int action, int mods)
 {
+	(void) scancode;
+	(void) mods;
+
 	if (action == GLFW_PRESS)
 	{
 		if (std::find(m_keys.begin(), m_keys.end(), key) == m_keys.end())
@@ -70,6 +73,7 @@ void Input::keyEvent(int key, int scancode, int action, int mods)
 
 void Input::characterEvent(unsigned int codepoint)
 {
+	(void) codepoint;
 }
 
 void Input::cursorPositionEvent(double xpos, double ypos)
@@ -80,6 +84,8 @@ void Input::cursorPositionEvent(double xpos, double ypos)
 
 void Input::mouseButtonEvent(int button, int action, int mods)
 {
+	(void) mods;
+
 	if (action == GLFW_PRESS)
 	{
 		if (std::find(m_buttons.begin(), m_buttons.end(), button) == m_buttons.end())

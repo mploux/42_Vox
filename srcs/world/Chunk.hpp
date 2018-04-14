@@ -8,7 +8,7 @@
 #include "world/blocks/Block.hpp"
 #include "World.hpp"
 
-#define CHUNK_SIZE 16
+#define CHUNK_SIZE 1
 
 class World;
 

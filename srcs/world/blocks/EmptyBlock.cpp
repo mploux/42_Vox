@@ -7,22 +7,9 @@
 EmptyBlock::EmptyBlock()
 	: Block(0, 0, 0, 0, 0, 0)
 {
-
+	m_type = 0;
+	m_solid = false;
+	m_opaque = false;
 }
 
 EmptyBlock::~EmptyBlock() {}
-
-unsigned char EmptyBlock::getType()
-{
-	return 0;
-}
-
-bool EmptyBlock::isSolid()
-{
-	return false;
-}
-
-bool EmptyBlock::isOpaque()
-{
-	return false;
-}

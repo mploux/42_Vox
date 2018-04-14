@@ -7,16 +7,8 @@
 StoneBlock::StoneBlock()
 	: Block(1)
 {
+	m_type = 1;
+	m_solid = true;
 }
 
 StoneBlock::~StoneBlock() {}
-
-unsigned char StoneBlock::getType()
-{
-	return 1;
-}
-
-bool StoneBlock::isSolid()
-{
-	return true;
-}

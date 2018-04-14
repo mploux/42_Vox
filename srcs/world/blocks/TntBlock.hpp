@@ -11,8 +11,5 @@ class TntBlock : public Block
 public:
 	explicit TntBlock();
 	virtual ~TntBlock();
-
-	unsigned char getType();
-	bool isSolid();
 };
 

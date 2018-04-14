@@ -19,31 +19,35 @@ Block::Block(const unsigned char &top, const unsigned char &bottom,
 	m_texture[3] = right;
 	m_texture[4] = front;
 	m_texture[5] = back;
+
+	m_type = -1;
+	m_solid = false;
+	m_opaque = false;
 }
 
 Block::~Block()
 {}
 
-unsigned char Block::getType()
+char Block::getType()
 {
-	return -1;
+	return m_type;
 }
 
 bool Block::isSolid()
 {
-	return false;
+	return m_solid;
 }
 
 bool Block::isOpaque()
 {
-	return true;
+	return m_opaque;
 }
 
 bool Block::isRendered()
 {
-	if (getType() == -1)
+	if (m_type == -1)
 		return false;
-	return isOpaque();
+	return m_opaque;
 }
 
 const unsigned char *Block::getTextureData() const

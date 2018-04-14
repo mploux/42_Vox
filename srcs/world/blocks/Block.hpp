@@ -7,7 +7,10 @@
 class Block
 {
 protected:
-	unsigned char m_texture[6];
+	unsigned char	m_texture[6];
+	char			m_type;
+	bool			m_solid;
+	bool			m_opaque;
 
 public:
 	explicit Block(const unsigned char &texture);
@@ -16,10 +19,10 @@ public:
 		   const unsigned char &front, const unsigned char &back);
 	virtual ~Block();
 
-	virtual unsigned char getType();
-	virtual bool isSolid();
-	virtual bool isOpaque();
-	virtual bool isRendered();
+	char getType();
+	bool isSolid();
+	bool isOpaque();
+	bool isRendered();
 	const unsigned char *getTextureData() const;
 };
 

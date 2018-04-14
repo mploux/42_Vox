@@ -41,7 +41,7 @@ Display::Display(const std::string &title, const int &width, const int &height)
 		if (glewInit() != GLEW_OK)
 			throw GlewInitException();
 
-//		glfwSwapInterval(1);
+		glfwSwapInterval(1);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);

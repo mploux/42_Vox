@@ -12,13 +12,13 @@ Core Core::m_instance = Core();
 
 Core::Core()
 	: m_display(Display("ft_vox", 1280, 720)),
-	  m_world(World(32)),
-	  m_shader24(Shader("../data/shaders/24.vert", "../data/shaders/24.geom", "../data/shaders/24.frag")),
-	  m_shader4(Shader("../data/shaders/main.vert", "../data/shaders/main.geom", "../data/shaders/main.frag")),
+	  m_running(false),
+	  m_world(World(1)),
+	  m_shader24(Shader("../data/shaders/24.vert", "../data/shaders/24.frag")),
+	  m_shader4(Shader("../data/shaders/main.vert", "../data/shaders/main.frag")),
 	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE, -20, -16 * CHUNK_SIZE))),
 	  m_input(Input(m_display)),
 	  m_texture(Texture("../data/textures/terrain.dds")),
-	  m_running(false),
 	  m_renderMode(RENDER_G_24)
 {
 	m_input.setupCallbacks();
