@@ -43,11 +43,11 @@ void World::update()
 
 void World::render(const Shader &shader)
 {
-	if (RENDER_MODE == RENDER_G_24)
+	if (Core::getInstance().getRenderMode() == RENDER_G_24)
 		for (int i = 0; i < m_size * m_size; i++)
 			m_chunks[getChunkIndex(i % m_size, 0, i / m_size)].renderG24(shader);
 
-	if (RENDER_MODE == RENDER_G_4)
+	if (Core::getInstance().getRenderMode() == RENDER_G_4)
 		for (int i = 0; i < m_size * m_size; i++)
 			m_chunks[getChunkIndex(i % m_size, 0, i / m_size)].renderG4(shader);
 }

@@ -24,6 +24,7 @@ private:
 	Camera		m_camera;
 	Input		m_input;
 	Texture		m_texture;
+	int			m_renderMode;
 
 public:
 	Core();
@@ -42,8 +43,10 @@ public:
 	Camera &getCamera();
 
 	static Core &getInstance();
-};
 
-static int RENDER_MODE = RENDER_G_24;
+	int getRenderMode() const;
+
+	void setRenderMode(int renderMode);
+};
 
 

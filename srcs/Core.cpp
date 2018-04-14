@@ -18,7 +18,8 @@ Core::Core()
 	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE, -20, -16 * CHUNK_SIZE))),
 	  m_input(Input(m_display)),
 	  m_texture(Texture("../data/textures/terrain.dds")),
-	  m_running(false)
+	  m_running(false),
+	  m_renderMode(RENDER_G_24)
 {
 	m_input.setupCallbacks();
 }
@@ -39,7 +40,7 @@ void Core::update()
 	m_world.update();
 
 	if (m_input.getKeyDown(GLFW_KEY_R))
-		RENDER_MODE = (RENDER_MODE + 1) % 2;
+		m_renderMode = (m_renderMode + 1) % 2;
 
 	m_input.reset();
 }
@@ -50,14 +51,14 @@ void Core::render()
 
 	m_texture.bind();
 
-	if (RENDER_MODE == RENDER_G_24)
+	if (m_renderMode == RENDER_G_24)
 	{
 		m_shader24.bind();
 		m_shader24.setUniform("projectionMatrix", m_camera.getTransformation());
 		m_shader24.setUniform("cameraPosition", m_camera.getPosition());
 		m_world.render(m_shader24);
 	}
-	if (RENDER_MODE == RENDER_G_4)
+	if (m_renderMode == RENDER_G_4)
 	{
 		m_shader4.bind();
 		m_shader4.setUniform("projectionMatrix", m_camera.getTransformation());
@@ -105,9 +106,9 @@ void Core::loop()
 				std::ostringstream stm ;
 				stm << frames;
 				std::string title = std::string("fps: ") + stm.str();
-				if (RENDER_MODE == RENDER_G_24)
+				if (m_renderMode == RENDER_G_24)
 					title += "  | render mode: GEOMETRY 24";
-				if (RENDER_MODE == RENDER_G_4)
+				if (m_renderMode == RENDER_G_4)
 					title += "  | render mode: GEOMETRY 4";
 				glfwSetWindowTitle(m_display.getWindow(), title.c_str());
 				frames = 0;
@@ -132,3 +133,13 @@ Camera &Core::getCamera() { return m_camera; }
 Input &Core::getInput() { return m_input; }
 
 Core &Core::getInstance() { return m_instance; }
+
+int Core::getRenderMode() const
+{
+	return m_renderMode;
+}
+
+void Core::setRenderMode(int renderMode)
+{
+	m_renderMode = renderMode;
+}

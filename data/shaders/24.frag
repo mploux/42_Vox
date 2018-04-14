@@ -21,5 +21,5 @@ void main()
 	if (texture_color.a < 0.2)
 		discard;
 
-	out_color = vec4(texture_color.xyz * v_color.xyz * 1.3, 1.0) * texture_color.a;
+	out_color = vec4(texture_color.xyz * v_color.xyz * vec3(1.3, 1.0, 1.0), 1.0) * texture_color.a;
 }

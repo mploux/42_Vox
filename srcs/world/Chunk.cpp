@@ -25,6 +25,7 @@ Chunk::~Chunk()
 void Chunk::generateBlocks()
 {
 	m_renderSizeG4 = 0;
+	m_renderSizeG24 = 0;
 	std::srand(0);
 	for (int x = 0; x < CHUNK_SIZE; x++)
 	{
@@ -46,13 +47,13 @@ void Chunk::generateBlocks()
 						m_blocks[x][y][z] = &blocks::TNT;
 
 					m_renderSizeG4++;
+					m_renderSizeG24++;
 				}
 				else
 					m_blocks[x][y][z] = &blocks::EMPTY;
 			}
 		}
 	}
-	m_renderSizeG24 = m_renderSizeG4;
 }
 
 void Chunk::generateRenderDataG4()
