@@ -14,6 +14,7 @@
 
 #define RENDER_G_24 0
 #define RENDER_G_4  1
+#define RENDER_VAO  2
 
 class Core
 {
@@ -23,6 +24,7 @@ private:
 	bool		m_running;
 	Shader		m_shader24;
 	Shader		m_shader4;
+	Shader		m_shader;
 	Camera		m_camera;
 	Input		m_input;
 	Texture		m_texture;

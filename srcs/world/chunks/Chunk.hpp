@@ -9,6 +9,7 @@
 #include "graphics/IRendereable.hpp"
 #include "world/blocks/ABlock.hpp"
 #include "world/World.hpp"
+#include "ChunkRenderer.hpp"
 
 #define CHUNK_SIZE 16
 
@@ -22,6 +23,7 @@ private:
 	ABlock				*m_blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 	int					m_renderSize;
 
+	ChunkRenderer		m_renderer;
 	ChunkRendererG4		m_rendererG4;
 	ChunkRendererG24	m_rendererG24;
 

@@ -6,7 +6,6 @@
 #include <chrono>
 #include <string>
 #include <sstream>
-#include <zconf.h>
 #include "Core.hpp"
 
 Core Core::m_instance = Core();
@@ -14,12 +13,13 @@ Core Core::m_instance = Core();
 Core::Core()
 	: m_display(Display("ft_vox", 1280, 720)),
 	  m_running(false),
-	  m_shader24(Shader("../data/shaders/24.vert", "../data/shaders/24.geom", "../data/shaders/24.frag")),
-	  m_shader4(Shader("../data/shaders/main.vert", "../data/shaders/main.geom", "../data/shaders/main.frag")),
-	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE, -20, -16 * CHUNK_SIZE))),
+	  m_shader24(Shader("../data/shaders/G24.vert", "../data/shaders/G24.geom", "../data/shaders/G24.frag")),
+	  m_shader4(Shader("../data/shaders/G4.vert", "../data/shaders/G4.geom", "../data/shaders/G4.frag")),
+	  m_shader(Shader("../data/shaders/main.vert", "../data/shaders/main.frag")),
+	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE + 8, -15, -16 * CHUNK_SIZE + 8))),
 	  m_input(Input(m_display)),
 	  m_texture(Texture("../data/textures/terrain.dds")),
-	  m_renderMode(RENDER_G_24),
+	  m_renderMode(RENDER_VAO),
 	  m_blocks(Blocks())
 {
 	m_input.setupCallbacks();
@@ -44,7 +44,7 @@ void Core::update()
 	m_world->update();
 
 	if (m_input.getKeyDown(GLFW_KEY_R))
-		m_renderMode = (m_renderMode + 1) % 2;
+		m_renderMode = (m_renderMode + 1) % 3;
 
 	m_input.reset();
 }
@@ -68,6 +68,13 @@ void Core::render()
 		m_shader4.setUniform("projectionMatrix", m_camera.getTransformation());
 		m_shader4.setUniform("cameraPosition", m_camera.getPosition());
 		m_world->render(m_shader4);
+	}
+	if (m_renderMode == RENDER_VAO)
+	{
+		m_shader.bind();
+		m_shader.setUniform("projectionMatrix", m_camera.getTransformation());
+		m_shader.setUniform("cameraPosition", m_camera.getPosition());
+		m_world->render(m_shader);
 	}
 }
 
@@ -114,6 +121,8 @@ void Core::loop()
 					title += "  | render mode: GEOMETRY 24";
 				if (m_renderMode == RENDER_G_4)
 					title += "  | render mode: GEOMETRY 4";
+				if (m_renderMode == RENDER_VAO)
+					title += "  | render mode: HUGE VAO";
 				glfwSetWindowTitle(m_display.getWindow(), title.c_str());
 				frames = 0;
 			}

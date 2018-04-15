@@ -44,9 +44,9 @@ set(SOURCE_FILES
 	srcs/graphics/Shader.hpp
 	srcs/utils/FileUtils.cpp
 	srcs/utils/FileUtils.hpp
-		srcs/world/chunks/Chunk.cpp srcs/world/chunks/Chunk.hpp
-        srcs/world/blocks/ABlock.cpp
-        srcs/world/blocks/ABlock.hpp
+	srcs/world/chunks/Chunk.cpp srcs/world/chunks/Chunk.hpp
+	srcs/world/blocks/ABlock.cpp
+	srcs/world/blocks/ABlock.hpp
 	srcs/world/blocks/StoneBlock.cpp
 	srcs/world/blocks/StoneBlock.hpp
 	srcs/world/blocks/EmptyBlock.cpp
@@ -55,7 +55,26 @@ set(SOURCE_FILES
 	srcs/graphics/Camera.hpp
 	srcs/maths/Vec3.hpp
 	srcs/maths/Vec2.hpp
-	srcs/maths/Mat4.hpp srcs/maths/Maths.hpp srcs/inputs/Input.cpp srcs/inputs/Input.hpp srcs/graphics/textures/Texture.cpp srcs/graphics/textures/Texture.hpp srcs/graphics/textures/TextureDDS.cpp srcs/world/blocks/TntBlock.cpp srcs/world/blocks/TntBlock.hpp srcs/world/blocks/GlassBlock.cpp srcs/world/blocks/GlassBlock.hpp srcs/world/blocks/Blocks.cpp srcs/world/blocks/Blocks.hpp srcs/world/chunks/ChunkRendererG24.cpp srcs/world/chunks/ChunkRendererG4.cpp srcs/world/chunks/ChunkRendererG4.hpp srcs/world/chunks/ChunkRendererG24.hpp)
+	srcs/maths/Mat4.hpp
+	srcs/maths/Maths.hpp
+	srcs/inputs/Input.cpp
+	srcs/inputs/Input.hpp
+	srcs/graphics/textures/Texture.cpp
+	srcs/graphics/textures/Texture.hpp
+	srcs/graphics/textures/TextureDDS.cpp
+	srcs/world/blocks/TntBlock.cpp
+	srcs/world/blocks/TntBlock.hpp
+	srcs/world/blocks/GlassBlock.cpp
+	srcs/world/blocks/GlassBlock.hpp
+	srcs/world/blocks/Blocks.cpp
+	srcs/world/blocks/Blocks.hpp
+	srcs/world/chunks/ChunkRendererG24.cpp
+	srcs/world/chunks/ChunkRendererG4.cpp
+	srcs/world/chunks/ChunkRendererG4.hpp
+	srcs/world/chunks/ChunkRendererG24.hpp
+	srcs/world/chunks/ChunkRenderer.cpp
+	srcs/world/chunks/ChunkRenderer.hpp
+	)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DGLEW_STATIC)

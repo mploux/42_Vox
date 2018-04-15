@@ -8,7 +8,7 @@
 #include "Chunk.hpp"
 
 Chunk::Chunk()
-	: m_pos(ZERO), m_world(nullptr), m_rendererG4(ChunkRendererG4(*this)), m_rendererG24(ChunkRendererG24(*this))
+	: m_pos(ZERO), m_world(nullptr), m_renderer(ChunkRenderer(*this)), m_rendererG4(ChunkRendererG4(*this)), m_rendererG24(ChunkRendererG24(*this))
 {
 }
 
@@ -50,12 +50,14 @@ void Chunk::generateBlocks()
 		}
 	}
 
+	m_renderer.setRenderSize(m_renderSize);
 	m_rendererG4.setRenderSize(m_renderSize);
 	m_rendererG24.setRenderSize(m_renderSize);
 }
 
 void Chunk::generateRenderData()
 {
+	m_renderer.generateRenderData();
 	m_rendererG4.generateRenderData();
 	m_rendererG24.generateRenderData();
 }
@@ -66,6 +68,8 @@ void Chunk::render(const Shader &shader)
 		m_rendererG4.render(shader);
 	if (Core::getInstance().getRenderMode() == RENDER_G_24)
 		m_rendererG24.render(shader);
+	if (Core::getInstance().getRenderMode() == RENDER_VAO)
+		m_renderer.render(shader);
 }
 
 unsigned char Chunk::getBlockVisibleFaces(const int &x, const int &y, const int &z) const

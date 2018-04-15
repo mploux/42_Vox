@@ -13,13 +13,13 @@ in vec4 frag_position;
 
 void main()
 {
-//	vec3 lightDirection = normalize(-frag_position.xyz - cameraPosition);
-//	float lightIntensity = dot(lightDirection, v_normal) * 0.5 + 0.5;
+	vec3 lightDirection = normalize(-frag_position.xyz - cameraPosition);
+	float lightIntensity = dot(lightDirection, v_normal) * 0.5 + 0.5;
 
 	vec4 texture_color = texture(tex, v_texcoord);
 
 	if (texture_color.a < 0.2)
 		discard;
 
-	out_color = vec4(texture_color.xyz * v_color.xyz * vec3(1.3, 1.0, 1.0), 1.0) * texture_color.a;
+	out_color = vec4(texture_color.xyz * vec3(1.0, 1.3, 1.0) * lightIntensity, 1.0) * texture_color.a;
 }
