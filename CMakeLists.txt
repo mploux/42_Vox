@@ -74,7 +74,7 @@ set(SOURCE_FILES
 	srcs/world/chunks/ChunkRendererG24.hpp
 	srcs/world/chunks/ChunkRenderer.cpp
 	srcs/world/chunks/ChunkRenderer.hpp
-	)
+	srcs/maths/Vec4.hpp)
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DGLEW_STATIC)

@@ -8,7 +8,7 @@
 #include "Chunk.hpp"
 
 Chunk::Chunk()
-	: m_pos(ZERO), m_world(nullptr), m_renderer(ChunkRenderer(*this)), m_rendererG4(ChunkRendererG4(*this)), m_rendererG24(ChunkRendererG24(*this))
+	: m_pos(ZERO), m_world(nullptr), m_renderer(ChunkRenderer(*this)), m_rendererG4(ChunkRendererG4(*this)), m_rendererG24(ChunkRendererG24(*this)), m_visible(true)
 {
 }
 
@@ -40,9 +40,7 @@ void Chunk::generateBlocks()
 						m_blocks[x][y][z] = GET_BLOCK("stone");
 					else if (rnd == 1)
 						m_blocks[x][y][z] = GET_BLOCK("tnt");
-
 					m_renderSize++;
-
 				}
 				else
 					m_blocks[x][y][z] = GET_BLOCK("empty");
@@ -62,14 +60,58 @@ void Chunk::generateRenderData()
 	m_rendererG24.generateRenderData();
 }
 
+void Chunk::update()
+{
+	m_visible = isInViewFrustum(Core::getInstance().getCamera().getTransformation());
+}
+
 void Chunk::render(const Shader &shader)
 {
+	if (!m_visible)
+		return;
 	if (Core::getInstance().getRenderMode() == RENDER_G_4)
 		m_rendererG4.render(shader);
 	if (Core::getInstance().getRenderMode() == RENDER_G_24)
 		m_rendererG24.render(shader);
 	if (Core::getInstance().getRenderMode() == RENDER_VAO)
 		m_renderer.render(shader);
+}
+
+bool Chunk::isInViewFrustum(const Mat4<float> &projection)
+{
+	Vec4<float> bound[8];
+	Mat4<float> mvp = projection;
+
+	float size = CHUNK_SIZE;
+	bound[0] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX(), m_pos.getY(), m_pos.getZ(), 1));
+	bound[1] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX(), m_pos.getY(), m_pos.getZ() + size, 1));
+	bound[2] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX(), m_pos.getY() + size, m_pos.getZ(), 1));
+	bound[3] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX(), m_pos.getY() + size, m_pos.getZ() + size, 1));
+	bound[4] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX() + size, m_pos.getY(), m_pos.getZ(), 1));
+	bound[5] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX() + size, m_pos.getY(), m_pos.getZ() + size, 1));
+	bound[6] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX() + size, m_pos.getY() + size, m_pos.getZ(), 1));
+	bound[7] = Mat4<float>::transform(mvp, Vec4<float>(m_pos.getX() + size, m_pos.getY() + size, m_pos.getZ() + size, 1));
+
+	int c[6] = {0, 0, 0, 0, 0, 0};
+	for (int i = 0; i < 8; i++)
+	{
+		if (bound[i].getX() < -bound[i].getW())
+			c[0]++;
+		if (bound[i].getX() > bound[i].getW())
+			c[1]++;
+		if (bound[i].getY() < -bound[i].getW())
+			c[2]++;
+		if (bound[i].getY() > bound[i].getW())
+			c[3]++;
+		if (bound[i].getZ() < -bound[i].getW())
+			c[4]++;
+		if (bound[i].getZ() > bound[i].getW())
+			c[5]++;
+	}
+	if (c[0] == 8 || c[1] == 8 || c[2] == 8 || c[3] == 8 || c[4] == 8 || c[5] == 8)
+		return false;
+
+	return true;
 }
 
 unsigned char Chunk::getBlockVisibleFaces(const int &x, const int &y, const int &z) const

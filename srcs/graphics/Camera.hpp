@@ -14,6 +14,7 @@ class Camera
 private:
 	Vec3<float>	m_position;
 	Vec2<float>	m_rotation;
+	float		m_speed;
 
 public:
 	Camera();
@@ -27,5 +28,7 @@ public:
 
 	const Vec3<float> &getPosition() const;
 	const Vec2<float> &getRotation() const;
+
+	float getSpeed() const;
 };
 

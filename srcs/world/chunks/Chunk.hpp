@@ -27,6 +27,8 @@ private:
 	ChunkRendererG4		m_rendererG4;
 	ChunkRendererG24	m_rendererG24;
 
+	bool				m_visible;
+
 public:
 	Chunk();
 	virtual ~Chunk();
@@ -36,7 +38,10 @@ public:
 	void generateBlocks();
 
 	void generateRenderData();
+	void update();
 	void render(const Shader &shader);
+
+	bool isInViewFrustum(const Mat4<float> &projection);
 
 	unsigned char getBlockVisibleFaces(const int &x, const int &y, const int &z) const;
 	const ABlock &getBlock(const int &x, const int &y, const int &z) const;

@@ -123,6 +123,12 @@ void Core::loop()
 					title += "  | render mode: GEOMETRY 4";
 				if (m_renderMode == RENDER_VAO)
 					title += "  | render mode: HUGE VAO";
+
+
+				std::ostringstream os;
+				os << m_camera.getSpeed();
+				title += "  | Speed: " + os.str();
+
 				glfwSetWindowTitle(m_display.getWindow(), title.c_str());
 				frames = 0;
 			}

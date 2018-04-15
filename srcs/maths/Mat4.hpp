@@ -7,6 +7,7 @@
 #include "Vec3.hpp"
 #include "Maths.hpp"
 #include "Vec2.hpp"
+#include "Vec4.hpp"
 
 template <typename T>
 class Mat4
@@ -37,9 +38,9 @@ public:
 		return result;
 	}
 
-	Mat4 &mul(const Mat4 &m)
+	const Mat4 mul(const Mat4 &m) const
 	{
-		Mat4 result = identity();
+		Mat4 result = Mat4().identity();
 
 		for (int x = 0; x < 4; x++)
 		{
@@ -51,11 +52,10 @@ public:
 											m_data[x + 3 * 4] * m.m_data[3 + y * 4];
 			}
 		}
-		*this = result;
-		return (*this);
+		return result;
 	}
 
-	Mat4 &operator*(const Mat4 &m2) { return mul(m2); }
+	const Mat4 operator*(const Mat4 &m2) const { return mul(m2); }
 
 	static Mat4 translate(const T &x, const T &y, const T &z)
 	{
@@ -92,7 +92,7 @@ public:
 		rz.m_data[4] = sin(rad * axis.getZ());
 		rz.m_data[5] = cos(rad * axis.getZ());
 
-		return rz.mul(ry.mul(rx));
+		return rz * ry * rx;
 	}
 
 	static Mat4 scale(const T &x, const T &y, const T &z)
@@ -141,13 +141,15 @@ public:
 		return (result);
 	}
 
-	static Vec3<T> transform(const Mat4 &m, const Vec3<T> &v)
+	static Vec4<T> transform(const Mat4 &m, const Vec4<T> &v)
 	{
-		Vec3<T> result;
+		Vec4<T> result(0, 0, 0, 0);
 
-		result.setX(m.m_data[0] * v.getX() + m.m_data[1] * v.getY() + m.m_data[2] * v.getZ() + m.m_data[3]);
-		result.setY(m.m_data[4] * v.getX() + m.m_data[5] * v.getY() + m.m_data[6] * v.getZ() + m.m_data[7]);
-		result.setZ(m.m_data[8] * v.getX() + m.m_data[9] * v.getY() + m.m_data[10] * v.getZ() + m.m_data[11]);
+		result.setX(m.m_data[0] * v.getX() + m.m_data[4] * v.getY() + m.m_data[8] * v.getZ() + m.m_data[12] * v.getW());
+		result.setY(m.m_data[1] * v.getX() + m.m_data[5] * v.getY() + m.m_data[9] * v.getZ() + m.m_data[13] * v.getW());
+		result.setZ(m.m_data[2] * v.getX() + m.m_data[6] * v.getY() + m.m_data[10] * v.getZ() + m.m_data[14] * v.getW());
+		result.setW(m.m_data[3] * v.getX() + m.m_data[7] * v.getY() + m.m_data[11] * v.getZ() + m.m_data[15] * v.getW());
+
 		return result;
 	}
 

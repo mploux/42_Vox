@@ -32,7 +32,8 @@ World::~World()
 
 void World::update()
 {
-
+	for (int i = 0; i < m_size * m_size; i++)
+		m_chunks[getChunkIndex(i % m_size, 0, i / m_size)].update();
 }
 
 void World::render(const Shader &shader)

@@ -7,13 +7,13 @@
 #include "Display.hpp"
 
 Camera::Camera()
-	: m_position(Vec3<float>(0.0f, 0.0f, 0.0f)), m_rotation(Vec2<float>(0.0f, 0.0f))
+	: m_position(Vec3<float>(0.0f, 0.0f, 0.0f)), m_rotation(Vec2<float>(0.0f, 0.0f)), m_speed(1.0f)
 {
 
 }
 
 Camera::Camera(const Vec3<float> &position)
-	: m_position(position), m_rotation(Vec2<float>(0.0f, 0.0f))
+	: m_position(position), m_rotation(Vec2<float>(0.0f, 0.0f)), m_speed(1.0f)
 {
 
 }
@@ -41,30 +41,35 @@ void Camera::input(const Display &display)
 	if (m_rotation.getX() < -89)
 		m_rotation.setX(-89);
 
+	if (Core::getInstance().getInput().getKey(GLFW_KEY_KP_ADD))
+		m_speed++;
+	if (Core::getInstance().getInput().getKey(GLFW_KEY_KP_SUBTRACT))
+		m_speed--;
+
 	if (Core::getInstance().getInput().getKey(GLFW_KEY_W))
 	{
-		m_position.setZ(m_position.getZ() - cos(DTR(m_rotation.getY())) * 0.1f);
-		m_position.setX(m_position.getX() - sin(DTR(m_rotation.getY())) * 0.1f);
+		m_position.setZ(m_position.getZ() - (float)cos(DTR(m_rotation.getY())) * 0.1f * m_speed);
+		m_position.setX(m_position.getX() - (float)sin(DTR(m_rotation.getY())) * 0.1f * m_speed);
 	}
 	if (Core::getInstance().getInput().getKey(GLFW_KEY_S))
 	{
-		m_position.setZ(m_position.getZ() + cos(DTR(m_rotation.getY())) * 0.1f);
-		m_position.setX(m_position.getX() + sin(DTR(m_rotation.getY())) * 0.1f);
+		m_position.setZ(m_position.getZ() + (float)cos(DTR(m_rotation.getY())) * 0.1f * m_speed);
+		m_position.setX(m_position.getX() + (float)sin(DTR(m_rotation.getY())) * 0.1f * m_speed);
 	}
 	if (Core::getInstance().getInput().getKey(GLFW_KEY_A))
 	{
-		m_position.setZ(m_position.getZ() - sin(DTR(m_rotation.getY())) * 0.1f);
-		m_position.setX(m_position.getX() + cos(DTR(m_rotation.getY())) * 0.1f);
+		m_position.setZ(m_position.getZ() - (float)sin(DTR(m_rotation.getY())) * 0.1f * m_speed);
+		m_position.setX(m_position.getX() + (float)cos(DTR(m_rotation.getY())) * 0.1f * m_speed);
 	}
 	if (Core::getInstance().getInput().getKey(GLFW_KEY_D))
 	{
-		m_position.setZ(m_position.getZ() + sin(DTR(m_rotation.getY())) * 0.1f);
-		m_position.setX(m_position.getX() - cos(DTR(m_rotation.getY())) * 0.1f);
+		m_position.setZ(m_position.getZ() + (float)sin(DTR(m_rotation.getY())) * 0.1f * m_speed);
+		m_position.setX(m_position.getX() - (float)cos(DTR(m_rotation.getY())) * 0.1f * m_speed);
 	}
 	if (Core::getInstance().getInput().getKey(GLFW_KEY_SPACE))
-		m_position.setY(m_position.getY() - 0.1f);
+		m_position.setY(m_position.getY() - 0.1f * m_speed);
 	if (Core::getInstance().getInput().getKey(GLFW_KEY_LEFT_SHIFT))
-		m_position.setY(m_position.getY() + 0.1f);
+		m_position.setY(m_position.getY() + 0.1f * m_speed);
 }
 
 void Camera::update()
@@ -89,4 +94,9 @@ const Vec3<float> &Camera::getPosition() const
 const Vec2<float> &Camera::getRotation() const
 {
 	return m_rotation;
+}
+
+float Camera::getSpeed() const
+{
+	return m_speed;
 }
