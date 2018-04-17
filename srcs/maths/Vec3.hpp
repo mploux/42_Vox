@@ -38,10 +38,21 @@ public:
 	Vec3 operator*(const Vec3 &v2) { return Vec3(m_x * v2.m_x, m_y * v2.m_y, m_z * v2.m_z); }
 	Vec3 operator/(const Vec3 &v2) { return Vec3(m_x / v2.m_x, m_y / v2.m_y, m_z / v2.m_z); }
 
+	Vec3 operator+(const T &v2) { return Vec3(m_x + v2, m_y + v2, m_z + v2); }
+	Vec3 operator-(const T &v2) { return Vec3(m_x - v2, m_y - v2, m_z - v2); }
+	Vec3 operator*(const T &v2) { return Vec3(m_x * v2, m_y * v2, m_z * v2); }
+	Vec3 operator/(const T &v2) { return Vec3(m_x / v2, m_y / v2, m_z / v2); }
+
 	Vec3 &operator=(const Vec3 &v) { m_x = v.m_x; m_y = v.m_y; m_z = v.m_z; return *this; }
 	Vec3 &operator=(const T &v) { m_x = v; m_y = v; m_z = v; return *this; }
 
-	bool operator==(const Vec3 &v) { return m_x == v.m_x && m_y == v.m_y && m_z == v.m_z; }
+	bool operator==(const Vec3 &v) const { return m_x == v.m_x && m_y == v.m_y && m_z == v.m_z; }
+	bool operator<(const Vec3 &v) const {
+		if ((m_z < v.m_z)) return true;
+		if ((m_z == v.m_z) && (m_y < v.m_y)) return true;
+		if ((m_z == v.m_z) && (m_y == v.m_y) && (m_x < v.m_x)) return true;
+		return false;
+	}
 
 	T getX() const { return m_x; }
 	T getY() const { return m_y; }

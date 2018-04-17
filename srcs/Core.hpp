@@ -55,6 +55,9 @@ public:
 	Blocks &getBlocks();
 
 	void setRenderMode(int renderMode);
+
+	bool isRunning() const;
+
 };
 
 

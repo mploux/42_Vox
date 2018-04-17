@@ -60,14 +60,10 @@ ChunkRenderer::~ChunkRenderer()
 
 void ChunkRenderer::generateRenderData()
 {
-	GLfloat *vertexData = new GLfloat[m_renderSize * 6 * 6 * 3];
-	GLfloat *textureData = new GLfloat[m_renderSize * 6 * 6 * 2];
-	GLfloat *normalData = new GLfloat[m_renderSize * 6 * 6 * 3];
+	GLfloat *vertexData = new GLfloat[m_renderSize * 6 * 6 * 8];
 
 	m_renderSize = 0;
 	int vertexSize = 0;
-	int textureSize = 0;
-	int normalSize = 0;
 	for (int x = 0; x < CHUNK_SIZE; x++)
 	{
 		for (int y = 0; y < CHUNK_SIZE; y++)
@@ -97,12 +93,12 @@ void ChunkRenderer::generateRenderData()
 								vertexData[vertexSize++] = absPos.getY() + m_blockVertices[i * 48 + j * 8 + 1];
 								vertexData[vertexSize++] = absPos.getZ() + m_blockVertices[i * 48 + j * 8 + 2];
 
-								textureData[textureSize++] = (m_blockVertices[i * 48 + j * 8 + 3] + tx) / 16.0f;
-								textureData[textureSize++] = (m_blockVertices[i * 48 + j * 8 + 4] + ty) / 16.0f;
+								vertexData[vertexSize++] = (m_blockVertices[i * 48 + j * 8 + 3] + tx) / 16.0f;
+								vertexData[vertexSize++] = (m_blockVertices[i * 48 + j * 8 + 4] + ty) / 16.0f;
 
-								normalData[normalSize++] = m_blockVertices[i * 48 + j * 8 + 5];
-								normalData[normalSize++] = m_blockVertices[i * 48 + j * 8 + 6];
-								normalData[normalSize++] = m_blockVertices[i * 48 + j * 8 + 7];
+								vertexData[vertexSize++] = m_blockVertices[i * 48 + j * 8 + 5];
+								vertexData[vertexSize++] = m_blockVertices[i * 48 + j * 8 + 6];
+								vertexData[vertexSize++] = m_blockVertices[i * 48 + j * 8 + 7];
 							}
 							m_renderSize += 6;
 						}
@@ -120,27 +116,19 @@ void ChunkRenderer::generateRenderData()
 	glBindVertexArray(m_vao);
 
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertexSize, vertexData, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_tbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * textureSize, textureData, GL_STATIC_DRAW);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, m_nbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * normalSize, normalData, GL_STATIC_DRAW);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * 4, nullptr);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * 4, reinterpret_cast<void *>(12));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * 4, reinterpret_cast<void *>(20));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
 
 	delete[] vertexData;
-	delete[] textureData;
-	delete[] normalData;
 }
 
 void ChunkRenderer::render(const Shader &shader)

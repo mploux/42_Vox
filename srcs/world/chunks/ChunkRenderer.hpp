@@ -6,8 +6,6 @@
 
 #include "graphics/IRendereable.hpp"
 
-#define CHUNK_SIZE 16
-
 class Chunk;
 
 class ChunkRenderer : public IRenderable

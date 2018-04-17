@@ -4,21 +4,22 @@
 
 #pragma once
 
+#include <cstdarg>
+
 #include <iostream>
 #include <string>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-
 class Display
 {
 private:
-	GLFWwindow	*m_window;
+	GLFWwindow				*m_window;
 
-	std::string	m_title;
-	int			m_width;
-	int			m_height;
+	std::string				m_title;
+	int						m_width;
+	int						m_height;
 
 	Display();
 
@@ -28,6 +29,7 @@ public:
 
 	bool closeRequested();
 	void update();
+	void clear();
 
 	GLFWwindow *getWindow() const;
 };

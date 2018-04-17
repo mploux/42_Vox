@@ -63,13 +63,26 @@ Display::~Display()
 
 bool Display::closeRequested()
 {
-	return glfwWindowShouldClose(m_window) ? true : false;
+	return glfwWindowShouldClose(m_window) != 0;
 }
 
 void Display::update()
 {
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
+}
+
+void Display::clear()
+{
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glEnable(GL_ALPHA_TEST);
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glViewport(0, 0, m_width, m_height);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 GLFWwindow *Display::getWindow() const

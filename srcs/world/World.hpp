@@ -4,6 +4,10 @@
 
 #pragma once
 
+#include <map>
+#include <deque>
+#include <vector>
+#include <thread>
 #include "graphics/IRendereable.hpp"
 #include "world/chunks/Chunk.hpp"
 
@@ -12,9 +16,12 @@ class Chunk;
 class World : public IRenderable
 {
 private:
-	Chunk	*m_chunks;
-	int		m_size;
-	int		m_height;
+	std::vector<Chunk *>			m_renderedChunks;
+	std::deque<Chunk *>				m_chunksToGenerate;
+	std::thread 					m_chunkGenerationThread;
+	Chunk							*m_chunks;
+	int								m_size;
+	int								m_height;
 
 public:
 	World(int size);
@@ -23,8 +30,12 @@ public:
 	void update();
 	void render(const Shader &shader);
 
-	int getChunkIndex(const int &x, const int &y, const int &z);
+	void generateChunk(const int &x, const int &y, const int &z);
+	void generateChunks();
 
-	const ABlock &getBlock(const int &x, const int &y, const int &z);
+	void addChunkToGenerate(Chunk *chunk);
+
+	int getChunkIndex(const int &x, const int &y, const int &z) const;
+	Chunk *getChunk(const int &x, const int &y, const int &z);
+	ABlock &getBlock(const int &x, const int &y, const int &z);
 };
-

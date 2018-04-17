@@ -16,14 +16,14 @@ Core::Core()
 	  m_shader24(Shader("../data/shaders/G24.vert", "../data/shaders/G24.geom", "../data/shaders/G24.frag")),
 	  m_shader4(Shader("../data/shaders/G4.vert", "../data/shaders/G4.geom", "../data/shaders/G4.frag")),
 	  m_shader(Shader("../data/shaders/main.vert", "../data/shaders/main.frag")),
-	  m_camera(Camera(Vec3<float>(-16 * CHUNK_SIZE + 8, -15, -16 * CHUNK_SIZE + 8))),
+	  m_camera(Camera(Vec3<float>(-8 * CHUNK_SIZE, -10, -8 * CHUNK_SIZE))),
 	  m_input(Input(m_display)),
 	  m_texture(Texture("../data/textures/terrain.dds")),
 	  m_renderMode(RENDER_VAO),
 	  m_blocks(Blocks())
 {
 	m_input.setupCallbacks();
-	m_world = new World(32);
+	m_world = new World(16);
 }
 
 Core::~Core()
@@ -51,7 +51,7 @@ void Core::update()
 
 void Core::render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_display.clear();
 
 	m_texture.bind();
 
@@ -113,7 +113,6 @@ void Core::loop()
 		{
 			if (time % 60 == 0)
 			{
-				std::cout << "fps: " << frames << "\n";
 				std::ostringstream stm ;
 				stm << frames;
 				std::string title = std::string("fps: ") + stm.str();
@@ -123,7 +122,6 @@ void Core::loop()
 					title += "  | render mode: GEOMETRY 4";
 				if (m_renderMode == RENDER_VAO)
 					title += "  | render mode: HUGE VAO";
-
 
 				std::ostringstream os;
 				os << m_camera.getSpeed();
@@ -167,4 +165,9 @@ void Core::setRenderMode(int renderMode)
 Blocks &Core::getBlocks()
 {
 	return m_blocks;
+}
+
+bool Core::isRunning() const
+{
+	return m_running;
 }

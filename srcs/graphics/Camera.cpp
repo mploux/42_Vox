@@ -7,13 +7,13 @@
 #include "Display.hpp"
 
 Camera::Camera()
-	: m_position(Vec3<float>(0.0f, 0.0f, 0.0f)), m_rotation(Vec2<float>(0.0f, 0.0f)), m_speed(1.0f)
+	: m_position(Vec3<float>(0.0f, 0.0f, 0.0f)), m_rotation(Vec2<float>(0.0f, 0.0f)), m_speed(50.0f)
 {
 
 }
 
 Camera::Camera(const Vec3<float> &position)
-	: m_position(position), m_rotation(Vec2<float>(0.0f, 0.0f)), m_speed(1.0f)
+	: m_position(position), m_rotation(Vec2<float>(0.0f, -90.0f)), m_speed(50.0f)
 {
 
 }

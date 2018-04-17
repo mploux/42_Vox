@@ -10,8 +10,8 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
 set(SOURCE_FILES
 	srcs/main.cpp
@@ -68,16 +68,19 @@ set(SOURCE_FILES
 	srcs/world/blocks/GlassBlock.hpp
 	srcs/world/blocks/Blocks.cpp
 	srcs/world/blocks/Blocks.hpp
-	srcs/world/chunks/ChunkRendererG24.cpp
-	srcs/world/chunks/ChunkRendererG4.cpp
-	srcs/world/chunks/ChunkRendererG4.hpp
-	srcs/world/chunks/ChunkRendererG24.hpp
 	srcs/world/chunks/ChunkRenderer.cpp
 	srcs/world/chunks/ChunkRenderer.hpp
-	srcs/maths/Vec4.hpp)
+	srcs/maths/Vec4.hpp
+	srcs/world/blocks/VoidBlock.cpp
+	srcs/world/blocks/VoidBlock.hpp
+	deps/threads/mingw.condition_variable.h
+	deps/threads/mingw.mutex.h
+	deps/threads/mingw.shared_mutex.h
+	deps/threads/mingw.thread.h
+	)
 
 find_package(OpenGL REQUIRED)
-add_definitions(-DGLEW_STATIC)
+#add_definitions(-DGLEW_STATIC)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -90,9 +93,8 @@ add_subdirectory(deps/glew/build/cmake)
 include_directories(srcs/)
 add_executable(${NAME} ${SOURCE_FILES})
 
-target_include_directories(${NAME} PUBLIC ${OPENGL_INCLUDE_DIR} deps/glfw/include deps/glew/include)
+target_include_directories(${NAME} PUBLIC ${OPENGL_INCLUDE_DIR} deps/glfw/include deps/glew/include deps/threads)
 target_link_libraries(${NAME} ${OPENGL_gl_LIBRARY} glfw glew)
-
 
 if (WIN32)
 #	add_custom_command(TARGET ${NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy

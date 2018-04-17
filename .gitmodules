@@ -6,3 +6,6 @@
 	path = deps/glew
 	url = https://github.com/mploux/glew.git
 	branch = latest
+[submodule "deps/threads"]
+	path = deps/threads
+	url = https://github.com/meganz/mingw-std-threads.git

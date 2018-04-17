@@ -23,7 +23,7 @@ public:
 	virtual char getType() const;
 	virtual bool isSolid() const;
 	virtual bool isOpaque() const;
-	virtual bool isRendered() const;
+	virtual bool isRendered(bool opaque) const;
 
 	const unsigned char *getTextureData() const;
 };

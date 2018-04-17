@@ -43,10 +43,13 @@ bool ABlock::isOpaque() const
 	return m_opaque;
 }
 
-bool ABlock::isRendered() const
+bool ABlock::isRendered(bool opaque) const
 {
+	(void) opaque;
 	if (m_type == -1)
-		return false;
+		return true;
+//	if (m_opaque == opaque)
+//		return false;
 	return m_opaque;
 }
 

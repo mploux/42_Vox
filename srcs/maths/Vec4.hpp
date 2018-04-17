@@ -36,6 +36,11 @@ public:
 	Vec4 operator*(const Vec4 &v2) { return Vec4(m_x * v2.m_x, m_y * v2.m_y, m_z * v2.m_z, m_w + v2.m_w); }
 	Vec4 operator/(const Vec4 &v2) { return Vec4(m_x / v2.m_x, m_y / v2.m_y, m_z / v2.m_z, m_w + v2.m_w); }
 
+	Vec4 operator+(const T &v2) { return Vec4(m_x + v2, m_y + v2, m_z + v2, m_w + v2); }
+	Vec4 operator-(const T &v2) { return Vec4(m_x - v2, m_y - v2, m_z - v2, m_w + v2); }
+	Vec4 operator*(const T &v2) { return Vec4(m_x * v2, m_y * v2, m_z * v2, m_w + v2); }
+	Vec4 operator/(const T &v2) { return Vec4(m_x / v2, m_y / v2, m_z / v2, m_w + v2); }
+
 	Vec4 &operator=(const Vec4 &v) { m_x = v.m_x; m_y = v.m_y; m_z = v.m_z; m_w = v.m_w; return *this; }
 	Vec4 &operator=(const T &v) { m_x = v; m_y = v; m_z = v; m_w = v; return *this; }
 
